@@ -10,8 +10,6 @@ import java.util.Random;
 public class UDPServer implements Closeable {
 
     private static DatagramSocket socket;
-    private static byte[] receivingDataBuffer = new byte[1048];
-    private static byte[] sendingDataBuffer = new byte[1048];
 
     public static void main(String[] args) throws IOException {
         socket = new DatagramSocket(60000);
@@ -19,6 +17,7 @@ public class UDPServer implements Closeable {
         Random random = new Random();
 
         while (true) {
+            byte[] receivingDataBuffer = new byte[1048];
             DatagramPacket inputPacket = new DatagramPacket(receivingDataBuffer, receivingDataBuffer.length);
 
             System.out.println("---------------------------------");
@@ -40,7 +39,7 @@ public class UDPServer implements Closeable {
             System.out.println("S: Received a client's (" + inputPacket.getAddress().getHostAddress() +
                     ":" + inputPacket.getPort() + ")" + " message: " + receivedData);
 
-            sendingDataBuffer = receivedData.toUpperCase().getBytes();
+            byte[] sendingDataBuffer = receivedData.toUpperCase().getBytes();
 
             InetAddress senderAddress = inputPacket.getAddress();
             int senderPort = inputPacket.getPort();
